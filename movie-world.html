@@ -1,0 +1,43 @@
+<link rel="import" href="bower_components/paper-card/paper-card.html">
+<dom-module id="movie-world">
+<template>
+
+<style is="custom-style">
+  paper-card.rate { @apply(--layout-horizontal); }
+  .rate-content {
+    @apply(--layout-flex);
+    float: left;
+  }
+  .rate-header { @apply(--paper-font-headline); }
+  .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+  paper-icon-button.rate-icon {
+    --iron-icon-fill-color: white;
+    --iron-icon-stroke-color: var(--paper-grey-600);
+  }
+</style>
+	<template is="dom-repeat" items="{{movieNames}}" as="item">
+		<paper-card class="rate">
+		  <div class="rate-content">
+		    <div class="card-content">
+		      <div class="rate-header">{{item.Title}}</div>
+		      <div class="rate-name">{{item.Type}}</div>
+		      <div>{{item.year}}</div>
+		    </div>
+		  <div class="rate-image"><img src="{{item.Poster}}"></div>
+		</paper-card>
+	</template>
+</template>
+
+<script>
+	Polymer({
+		is: "movie-world",
+		properties: {
+			movieNames: {
+				type: Array
+			}
+		},
+		ready:  function(){
+		}
+	});
+</script>
+</dom-module>

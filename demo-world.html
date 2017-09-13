@@ -1,0 +1,60 @@
+<link rel="import" href="bower_components/paper-button/paper-button.html">
+<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="movie-world.html">
+
+<style>
+  paper-input {
+    max-width: 400px;
+  }
+  paper-button {
+  	margin-top: 20px;
+  }
+</style>
+
+<dom-module id="demo-world">
+<template>
+	<h3> Enter Movie Name: </h3>
+	<paper-input label="Enter Name" value="{{movieName}}"></paper-input>
+	<h3> Enter Movie Year: </h3>
+	<paper-input label="Enter Year" value="{{yearReleased}}"></paper-input>
+	<paper-button raised on-click="makeCall">Submit</paper-button>
+	<iron-ajax
+		id="makemovieCall"
+	    url="http://www.omdbapi.com/?apikey=plzBanMe"
+	    handle-as="json"
+	    on-response="movieResponse">
+	</iron-ajax>
+	<movie-world movie-names="{{movies}}"></movie-world>
+</template>
+
+<script>
+	Polymer({
+		is: "demo-world",
+		properties: {
+			movieName: {
+				type: String,
+				notify: true
+			},
+			yearReleased: {
+				type: String,
+				notify: true
+			},
+			movies: {
+				type: Array,
+				notify: true
+			}
+		},
+		ready:  function(){
+		},
+		makeCall:function(){
+			this.$.makemovieCall.params.s = this.movieName;
+			this.$.makemovieCall.params.y = this.yearReleased;
+			this.$.makemovieCall.generateRequest();
+		},
+		movieResponse: function(e){
+			this.movies = e.detail.response.Search;
+		}
+	});
+</script>
+</dom-module>
